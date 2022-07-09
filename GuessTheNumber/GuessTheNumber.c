@@ -32,12 +32,33 @@ int howManyTries() {
 }
 
 void main() {
-	int min = getMinNumber();
-	int max = getMaxNumber();
+	int min = minNumber();
+	int max = maxNumber();
+	int tries = howManyTries();
 	if (min > max) {
 		printf("Le nombre minimal doit etre inferieur au nombre maximal \n");
 		return main();
 	}
-	int number = getRandomNumber(min, max);
-	printf("%d", number);
+	int number = randomNumber(min, max);
+
+	while (tries > 0) {
+		int currentTry;
+		printf("Essaie de deviner a quel nombre je pense (%d - %d)\n", min, max);
+		scanf_s("%d", &currentTry);
+
+		if (currentTry == number) {
+			printf("Bravo, c'est le bon nombre !\n");
+			return main();
+		}
+
+		if (currentTry < number) {
+			min = (currentTry > min ? currentTry : min);
+			printf("Mon nombre est plus grand\n");
+		}
+		else if (currentTry > number) {
+			max = (currentTry < max ? currentTry : max);
+			printf("Mon nombre est plus petit\n");
+		}
+		printf("Il te reste %d essais\n", --tries);
+	}
 }
